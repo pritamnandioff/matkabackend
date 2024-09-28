@@ -1,15 +1,14 @@
 /** @format */
 
-const Market = require("../models/market");
+const Settings = require("../models/settings");
 
-// All Markets
-exports.getAllMarkets = async (req, res) => {
+exports.getSettings = async (req, res) => {
     try {
-        const markets = await Market.find();
+        const settings = await Settings.find();
 
         res.status(200).json({
             success: true,
-            data: markets,
+            data: settings,
         });
     } catch (error) {
         res.status(500).json({
