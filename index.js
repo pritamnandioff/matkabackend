@@ -1,15 +1,29 @@
 /** @format */
 
 const express = require("express");
+const mongoose = require("mongoose");
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRutes");
+const { connectDB } = require("./config/db");
 const app = express();
-const port = 3000;
 
-// Define a route on a specific path
-app.get("/status", (req, res) => {
-    res.send("Project is running");
+// Connect to MongoDB
+connectDB();
+
+// Middleware to parse JSON
+app.use(express.json());
+
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
+
+// Error handling middleware (optional)
+app.use((err, req, res, next) => {
+    res.status(500).json({ message: err.message });
 });
 
 // Start the server
-app.listen(port, () => {
-    console.log(`Server is running http://localhost:${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port http://localhost:${PORT}`);
 });
